@@ -13,9 +13,7 @@ class FlickrConstants {
     
     //MARK: Constants
     struct Constants {
-        
-        //MARK: API Key
-        static let APIKEY = "03f47bd6c1bce21fa416d9cd84183743"
+
         static let SECRET = "bcc20a93649f2676"
         
         //MARK: URL
@@ -27,13 +25,9 @@ class FlickrConstants {
         
     }
  
-    //MARK: Methods
-    struct Methods {
-        
-        static let flickrSearch = "flickr.photos.search"
-    }
-    
+    //MARK: Parameter Keys
     struct FlickrParameterKeys {
+        static let SearchMethod = "method"
         static let APIKey: String = "api_key"
         static let UserID: String = "user_id"
         static let BBOX: String = "bbox"
@@ -43,7 +37,20 @@ class FlickrConstants {
         static let Gallery: String = "in_gallery"
         static let Extras: String = "extras"
         static let PerPage: String = "per_page"
-        static let Page: String = "page"
+        static let SafeSearch = "safe_search"
+        static let ResponseFormat = "format"
+        static let DisableJSONCallback = "nojsoncallback"
+    }
+    
+    //MARK: Parameter Values
+    
+    struct FlickrParameterValues {
+        static let SearchMethod = "flickr.photos.search"
+        static let APIKEY = "03f47bd6c1bce21fa416d9cd84183743"
+        static let ResponseFormat = "json"
+        static let DisableJSONCallback = "1"
+        static let MediumURL = "url_m"
+        static let SafeSearch = "1"
     }
     
     
