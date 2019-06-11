@@ -45,6 +45,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         
         navigationItem.rightBarButtonItem = editButtonItem
         
@@ -61,8 +62,15 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         fetchedResultsController = nil
     }
     
+    //MARK: Actions
+    @IBAction func pinLongPressRecognizer(_ sender: Any) {
+        
+        if (sender as AnyObject).state == .ended{
+            //self.mapView.addAnnotation(annotation)
+        }
+        
+    }
     
-
     
     
     
