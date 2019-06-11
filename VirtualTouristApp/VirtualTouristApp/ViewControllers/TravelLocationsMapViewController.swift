@@ -24,6 +24,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     var fetchedResultsController:NSFetchedResultsController<Pin>!
     
+    var annotations = [MKPointAnnotation]()
+    
     
     
    //fetched results view controller
@@ -45,6 +47,11 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //code for long press gesture pin
+        let pinLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: Selector(("dropPin:")))
+        pinLongPressRecognizer.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(pinLongPressRecognizer)
+        
         mapView.delegate = self
         
         navigationItem.rightBarButtonItem = editButtonItem
@@ -66,7 +73,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     @IBAction func pinLongPressRecognizer(_ sender: Any) {
         
         if (sender as AnyObject).state == .ended{
-            //self.mapView.addAnnotation(annotation)
+            self.mapView.addAnnotation(annotations as! MKAnnotation)
         }
         
     }
@@ -85,7 +92,20 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     }
     
     
-    
+    //Fetch Pins
+    /*func fetchAllPins() -> [Pin] {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            print("Error In Fetch!")
+            return [Pin]()
+        }
+       // return
+    }*/
     
     
     
