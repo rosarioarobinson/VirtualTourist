@@ -16,9 +16,14 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     //OUTLETS
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var editPin: UIBarButtonItem!
     
    
-    var pin : Pin!
+    var pin = [Pin]()
+    
+    var appDelegate: AppDelegate!
+    
+    var sharedContext: NSManagedObjectContext!
     
     var dataController: DataController!
     
@@ -26,25 +31,9 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     var annotations = [MKPointAnnotation]()
     
+
     
-    
-   //fetched results view controller
-    fileprivate func setupFetchedResultsController() {
-        let fetchRequest:NSFetchRequest<Pin> = Pin.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(pin)-pins")
-        fetchedResultsController.delegate = self as? NSFetchedResultsControllerDelegate
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-        }
-    }
-    
-    
+    //MARK: Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         //code for long press gesture pin
@@ -61,7 +50,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupFetchedResultsController()
+       setupFetchedResultsController()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -70,21 +59,65 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     }
     
     //MARK: Actions
-    @IBAction func pinLongPressRecognizer(_ sender: Any) {
+
+    @IBAction func pinsLongPressRecognizer(_ gestureRecognizer: UILongPressGestureRecognizer) {
         
-        if (sender as AnyObject).state == .ended{
+        if gestureRecognizer.state == .began {return}
+        
+        let pressPoint = gestureRecognizer.location(in: mapView)
+        let coordinates = mapView.convert(pressPoint, toCoordinateFrom: mapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        
+        
+        if gestureRecognizer.state == .ended{
             self.mapView.addAnnotation(annotations as! MKAnnotation)
         }
         
     }
     
+    @IBAction func editPinsPressed(_ sender: Any) {
     
+        
+    
+    }
+    
+    
+    //fetched results view controller
+    private func setupFetchedResultsController() {
+        let fetchRequest:NSFetchRequest<Pin> = Pin.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        //Getting ERROR: Found NIL while unwrapping Optional Value
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "pins")
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+        }
+    }
+    
+    
+    //Saving Pins
+    func addSavedPins() {
+         //Pin = fetchAllPins()
+        
+        /*for pin in fetchAllPins() {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            self.mapView.addAnnotation(annotation as! MKAnnotation)
+        }*/
+    }
     
     
     
     // MARK: Navigation
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "photoAlbum" {
             let photoAlbumViewController = segue.destination as! PhotoAlbumViewController
             
@@ -93,18 +126,18 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     
     //Fetch Pins
+    //ERROR OCCURED with 'sharedContext'
     /*func fetchAllPins() -> [Pin] {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
-        let sortDescriptor = NSSortDescriptor(key: "latitude", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
         do {
-            try fetchedResultsController.performFetch()
+            //ERROR: Use of unresolved identifier 'sharedContext'
+            return try sharedContext.fetch(fetchRequest) as! [Pin]
         } catch {
             print("Error In Fetch!")
-            return [Pin]()
+            //return [Pin]()
         }
-       // return
+        return [Pin]()
     }*/
     
     
@@ -139,4 +172,5 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             }
         }
     }
-}
+
+

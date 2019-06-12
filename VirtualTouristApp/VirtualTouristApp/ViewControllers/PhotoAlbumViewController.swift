@@ -78,7 +78,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     
     
-    //Collection views
+    //MARK: Collection views
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
     }
@@ -93,6 +93,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotoAlbumCollectionViewCell
+    }
     
     
 }

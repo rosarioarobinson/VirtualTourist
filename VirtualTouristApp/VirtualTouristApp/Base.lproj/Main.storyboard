@@ -29,7 +29,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="Virtual Tourist" id="tgB-r3-NH3">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="azX-Fu-Aq7"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="azX-Fu-Aq7">
+                                            <connections>
+                                                <action selector="editPinsPressed:" destination="BYZ-38-t0r" id="gKo-b4-3t6"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -47,6 +51,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="editPin" destination="azX-Fu-Aq7" id="Maw-PV-mJ0"/>
                         <outlet property="mapView" destination="mbc-W3-gsf" id="WKd-Jk-Os5"/>
                         <segue destination="SxS-qe-sNH" kind="showDetail" id="SHv-sa-lil"/>
                     </connections>
@@ -54,7 +59,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="hJn-X8-dNt">
                     <connections>
-                        <action selector="pinLongPressRecognizer:" destination="BYZ-38-t0r" id="0Vk-68-EYQ"/>
+                        <action selector="pinsLongPressRecognizer:" destination="BYZ-38-t0r" id="PnH-Bc-3Pa"/>
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
