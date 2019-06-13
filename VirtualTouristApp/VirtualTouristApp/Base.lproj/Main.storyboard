@@ -21,9 +21,6 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mbc-W3-gsf">
                                 <rect key="frame" x="0.0" y="61" width="375" height="606"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="hJn-X8-dNt" appends="YES" id="eTe-9i-pZl"/>
-                                </connections>
                             </mapView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IdA-gj-xtg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -53,15 +50,11 @@
                     <connections>
                         <outlet property="editPin" destination="azX-Fu-Aq7" id="Maw-PV-mJ0"/>
                         <outlet property="mapView" destination="mbc-W3-gsf" id="WKd-Jk-Os5"/>
-                        <segue destination="SxS-qe-sNH" kind="showDetail" id="SHv-sa-lil"/>
+                        <segue destination="SxS-qe-sNH" kind="showDetail" identifier="photoAlbum" id="SHv-sa-lil"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="hJn-X8-dNt">
-                    <connections>
-                        <action selector="pinsLongPressRecognizer:" destination="BYZ-38-t0r" id="PnH-Bc-3Pa"/>
-                    </connections>
-                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="hJn-X8-dNt"/>
             </objects>
             <point key="canvasLocation" x="669.60000000000002" y="33.733133433283363"/>
         </scene>

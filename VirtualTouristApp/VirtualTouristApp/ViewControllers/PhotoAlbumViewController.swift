@@ -41,7 +41,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(pin)-pins")
-        fetchedResultsController.delegate = self as? NSFetchedResultsControllerDelegate
+        fetchedResultsController.delegate = self
+        
         
         do {
             try fetchedResultsController.performFetch()

@@ -32,12 +32,30 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     var annotations = [MKPointAnnotation]()
     
 
+    //fetched results view controller
+    func setupFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "string", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+    }
+    
     
     //MARK: Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        dataController = appDelegate.dataController
         //code for long press gesture pin
-        let pinLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: Selector(("dropPin:")))
+        let pinLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(annotationPins(gestureRecognizer:)))
         pinLongPressRecognizer.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(pinLongPressRecognizer)
         
@@ -60,7 +78,29 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     //MARK: Actions
 
-    @IBAction func pinsLongPressRecognizer(_ gestureRecognizer: UILongPressGestureRecognizer) {
+   /* @IBAction func pinsLongPressRecognizer(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        
+        if gestureRecognizer.state == .began {return}
+        
+        let pressPoint = gestureRecognizer.location(in: mapView)
+        let coordinates = mapView.convert(pressPoint, toCoordinateFrom: mapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        
+        
+        if gestureRecognizer.state == .ended{
+            self.mapView.addAnnotation(annotations as! MKAnnotation)
+        }
+        
+    }*/
+    
+    @IBAction func editPinsPressed(_ sender: Any) {
+    
+        
+    
+    }
+    
+    @objc func annotationPins(gestureRecognizer: UILongPressGestureRecognizer) {
         
         if gestureRecognizer.state == .began {return}
         
@@ -76,29 +116,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
     }
     
-    @IBAction func editPinsPressed(_ sender: Any) {
     
-        
-    
-    }
-    
-    
-    //fetched results view controller
-    private func setupFetchedResultsController() {
-        let fetchRequest:NSFetchRequest<Pin> = Pin.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        //Getting ERROR: Found NIL while unwrapping Optional Value
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "pins")
-        fetchedResultsController.delegate = self
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-        }
-        }
+
     }
     
     
@@ -127,9 +146,10 @@ func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
     //Fetch Pins
     //ERROR OCCURED with 'sharedContext'
-    /*func fetchAllPins() -> [Pin] {
+    func fetchAllPins() -> [Pin] {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        let sharedContext = NSManagedObjectContext()
         do {
             //ERROR: Use of unresolved identifier 'sharedContext'
             return try sharedContext.fetch(fetchRequest) as! [Pin]
@@ -138,7 +158,7 @@ func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             //return [Pin]()
         }
         return [Pin]()
-    }*/
+    }
     
     
     
