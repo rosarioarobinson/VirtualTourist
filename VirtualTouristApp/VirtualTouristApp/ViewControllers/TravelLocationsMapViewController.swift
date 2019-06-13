@@ -131,7 +131,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
 func fetchAllPins() -> [Pin] {
     
     /*Before you can do anything with Core Data, you need a managed object context. */
-    let managedContext = CoreDataStack.sharedStack.persistentContainer.viewContext
+    let managedContext = CoreDataStack.getContext()
     
     /*As the name suggests, NSFetchRequest is the class responsible for fetching from Core Data.
      
