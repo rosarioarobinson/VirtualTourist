@@ -14,7 +14,7 @@ import CoreData
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
-    //MARK: Outlets
+    //MARK: OUTLETS
     @IBOutlet weak var zoomMap: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -51,7 +51,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
     }
     
-    //Lifecycles
+    //LIFECYCLES
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,7 +66,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     }
 
     
-    //MARK: Actions
+    //MARK: ACTIONS
     @IBAction func newCollectionPressed(_ sender: Any) {
         
         setupFetchedResultsController()

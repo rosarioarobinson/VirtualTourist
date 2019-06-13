@@ -13,32 +13,28 @@ import CoreData
 
 class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
-    //OUTLETS
+    //MARK: OUTLETS
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var editPin: UIBarButtonItem!
     
    
-    var pin = [Pin]()
-    
-    var appDelegate: AppDelegate!
-    
-    var sharedContext: NSManagedObjectContext!
-    
     var dataController: DataController!
-    
+    var sharedContext: NSManagedObjectContext!
+    var appDelegate: AppDelegate!
     var fetchedResultsController:NSFetchedResultsController<Pin>!
-    
+    var editBarButton: UIBarButtonItem!
+    var pin = [Pin]()
     var annotations = [MKPointAnnotation]()
     
 
-    //fetched results view controller
+    //Fetched Results View Controller
     func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "string", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "String", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "Pins")
         fetchedResultsController.delegate = self
         do {
             try fetchedResultsController.performFetch()
@@ -48,27 +44,29 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     }
     
     
-    //MARK: Lifecycles
+    //MARK: LIFECYCLES
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         dataController = appDelegate.dataController
+        
         //code for long press gesture pin
-        let pinLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(annotationPins(gestureRecognizer:)))
-        pinLongPressRecognizer.minimumPressDuration = 0.5
-        mapView.addGestureRecognizer(pinLongPressRecognizer)
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(annotationPins(gestureRecognizer:)))
+        gestureRecognizer.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(gestureRecognizer)
         
         mapView.delegate = self
-        
+        //edit button
         navigationItem.rightBarButtonItem = editButtonItem
+        editPin.isEnabled = true
         
         setupFetchedResultsController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       setupFetchedResultsController()
+       fetchAllPins()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -76,7 +74,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         fetchedResultsController = nil
     }
     
-    //MARK: Actions
+    //MARK: ACTIONS
 
    /* @IBAction func pinsLongPressRecognizer(_ gestureRecognizer: UILongPressGestureRecognizer) {
         
@@ -94,9 +92,17 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
     }*/
     
-    @IBAction func editPinsPressed(_ sender: Any) {
+    @IBAction func editPinsPressed(sender: UIBarButtonItem ) {
     
-        
+        if isEditing {
+            editBarButton.title = "Edit"
+            editPin.isEnabled = true
+            self.setEditing(false, animated: true)
+        } else {
+            editBarButton.title = "Done"
+            editPin.isEnabled = false
+            self.setEditing(true, animated: true)
+        }
     
     }
     
@@ -108,6 +114,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         let coordinates = mapView.convert(pressPoint, toCoordinateFrom: mapView)
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinates
+        mapView.addAnnotation(annotation)
         
         
         if gestureRecognizer.state == .ended{
@@ -119,7 +126,31 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
 
     }
+
+
+func fetchAllPins() -> [Pin] {
     
+    /*Before you can do anything with Core Data, you need a managed object context. */
+    let managedContext = CoreDataStack.sharedStack.persistentContainer.viewContext
+    
+    /*As the name suggests, NSFetchRequest is the class responsible for fetching from Core Data.
+     
+     Initializing a fetch request with init(entityName:), fetches all objects of a particular entity. This is what you do here to fetch all Person entities.
+     */
+    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Pin")
+    
+    /*You hand the fetch request over to the managed object context to do the heavy lifting. fetch(_:) returns an array of managed objects meeting the criteria specified by the fetch request.*/
+    do {
+        let pin = try managedContext.fetch(fetchRequest)
+        return (pin as? [Pin])!
+    } catch let error as NSError {
+        print("Could not fetch. \(error), \(error.userInfo)")
+        return [Pin]()
+    }
+}
+
+
+
     
     //Saving Pins
     func addSavedPins() {
@@ -134,7 +165,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     
     
-    // MARK: Navigation
+    // MARK: NAVIGATION
     
 func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "photoAlbum" {
@@ -142,23 +173,7 @@ func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             
         }
     }
-    
-    
-    //Fetch Pins
-    //ERROR OCCURED with 'sharedContext'
-    func fetchAllPins() -> [Pin] {
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
-        let sharedContext = NSManagedObjectContext()
-        do {
-            //ERROR: Use of unresolved identifier 'sharedContext'
-            return try sharedContext.fetch(fetchRequest) as! [Pin]
-        } catch {
-            print("Error In Fetch!")
-            //return [Pin]()
-        }
-        return [Pin]()
-    }
+
     
     
     
@@ -172,7 +187,7 @@ func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            pinView!.canShowCallout = true
+            pinView!.canShowCallout = false
             pinView!.pinTintColor = .red
             pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
@@ -184,8 +199,10 @@ func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     }
     
     //Method implemented to respond to taps
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control == view.rightCalloutAccessoryView {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView) {
+        mapView.deselectAnnotation(view.annotation, animated: true)
+        
+        do {
             let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
                 app.openURL(URL(string: toOpen)!)
