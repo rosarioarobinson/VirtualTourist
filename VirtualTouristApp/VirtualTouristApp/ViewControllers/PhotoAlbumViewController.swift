@@ -29,6 +29,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var pin: Pin!
     
     var dataController: DataController!
+    //var coreDataStack: CoreDataStack!
     
     var fetchedResultsController:NSFetchedResultsController<Pin>!
     
@@ -57,19 +58,19 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         
         navigationItem.rightBarButtonItem = editButtonItem
         
-        setupFetchedResultsController()
+        //setupFetchedResultsController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupFetchedResultsController()
+        //setupFetchedResultsController()
     }
 
     
     //MARK: ACTIONS
     @IBAction func newCollectionPressed(_ sender: Any) {
         
-        setupFetchedResultsController()
+        //setupFetchedResultsController()
         
     }
     

@@ -12,7 +12,7 @@ import UIKit
 
 private let SQLITE_FILE_NAME = "model.sqlite"
 
-class CoreDataStack {
+/*class CoreDataStack {
     
     //Information on how to implement CoreData Stack into project provided by:
     //https://medium.com/@maddy.lucky4u/swift-4-core-data-part-2-creating-a-simple-app-c4eded1fa55f
@@ -20,13 +20,19 @@ class CoreDataStack {
     
     //Mark: CoreData Stack
     
-    static let sharedStack = CoreDataStack()
+    // MARK: Shared Instance
+    class func sharedInstance() -> CoreDataStack {
+        struct Singleton {
+            static var sharedInstance = CoreDataStack()
+        }
+        
+        return Singleton.sharedInstance
+    }
     
     private init() {}
     
-    class func getContext() -> NSManagedObjectContext {
-        return CoreDataStack.persistentContainer.viewContext
-    }
+    //let context = persistentContainer.viewContext
+
     
     static var persistentContainer: NSPersistentContainer = {
         
@@ -49,7 +55,7 @@ class CoreDataStack {
     
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = Bundle.main.url(forResource: "XXX", withExtension: "momd")!
+        let modelURL = Bundle.main.url(forResource: "Model", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
@@ -102,4 +108,4 @@ class CoreDataStack {
     
     
     
-}
+}*/

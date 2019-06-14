@@ -20,7 +20,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
    
     var dataController: DataController!
-    var sharedContext: NSManagedObjectContext!
+    //var coreDataStack: CoreDataStack!
     var appDelegate: AppDelegate!
     var fetchedResultsController:NSFetchedResultsController<Pin>!
     var editBarButton: UIBarButtonItem!
@@ -131,7 +131,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
 func fetchAllPins() -> [Pin] {
     
     /*Before you can do anything with Core Data, you need a managed object context. */
-    let managedContext = CoreDataStack.getContext()
+    let managedContext = DataController.sharedInstance()
     
     /*As the name suggests, NSFetchRequest is the class responsible for fetching from Core Data.
      
@@ -141,7 +141,7 @@ func fetchAllPins() -> [Pin] {
     
     /*You hand the fetch request over to the managed object context to do the heavy lifting. fetch(_:) returns an array of managed objects meeting the criteria specified by the fetch request.*/
     do {
-        let pin = try managedContext.fetch(fetchRequest)
+        let pin = try managedContext.managedObjectContext.fetch(fetchRequest)
         return (pin as? [Pin])!
     } catch let error as NSError {
         print("Could not fetch. \(error), \(error.userInfo)")
