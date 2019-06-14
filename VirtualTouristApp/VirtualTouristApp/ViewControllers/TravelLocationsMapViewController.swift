@@ -191,7 +191,7 @@ func fetchAllPins() -> [Pin] {
     }
     
     //Method implemented to respond to taps
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView) {
+/*    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: true)
         
         do {
@@ -200,4 +200,4 @@ func fetchAllPins() -> [Pin] {
                 app.openURL(URL(string: toOpen)!)
             }
         }
-    }
+    }*/
