@@ -20,7 +20,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
    
     var dataController: DataController!
-    //var coreDataStack: CoreDataStack!
+    var viewContext: DataController!
     var appDelegate: AppDelegate!
     var fetchedResultsController:NSFetchedResultsController<Pin>!
     var editBarButton: UIBarButtonItem!
@@ -31,7 +31,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     //Fetched Results View Controller
     func setupFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "String", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "string", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "Pins")
@@ -51,15 +51,17 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         dataController = appDelegate.dataController
         
+        editPin.isEnabled = true
+        //edit button
+        navigationItem.rightBarButtonItem = editButtonItem
+        editPin = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(getter: self.editPin))
+        
         //code for long press gesture pin
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(annotationPins(gestureRecognizer:)))
         gestureRecognizer.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(gestureRecognizer)
         
         mapView.delegate = self
-        //edit button
-        navigationItem.rightBarButtonItem = editButtonItem
-        editPin.isEnabled = true
         
         setupFetchedResultsController()
     }
@@ -76,34 +78,19 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     //MARK: ACTIONS
 
-   /* @IBAction func pinsLongPressRecognizer(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        
-        if gestureRecognizer.state == .began {return}
-        
-        let pressPoint = gestureRecognizer.location(in: mapView)
-        let coordinates = mapView.convert(pressPoint, toCoordinateFrom: mapView)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinates
-        
-        
-        if gestureRecognizer.state == .ended{
-            self.mapView.addAnnotation(annotations as! MKAnnotation)
-        }
-        
-    }*/
     
     @IBAction func editPinsPressed(sender: UIBarButtonItem ) {
     
         if isEditing {
-            editBarButton.title = "Edit"
-            editPin.isEnabled = true
-            self.setEditing(false, animated: true)
+            isEditing = false
+            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: Selector(("pressedNavButtonRight:")))
         } else {
-            editBarButton.title = "Done"
-            editPin.isEnabled = false
-            self.setEditing(true, animated: true)
+            isEditing = true
+            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("pressedNavButtonRight:")))
         }
     
+        self.setEditing(isEditing, animated: true)
+        
     }
     
     @objc func annotationPins(gestureRecognizer: UILongPressGestureRecognizer) {
@@ -117,9 +104,9 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         mapView.addAnnotation(annotation)
         
         
-        if gestureRecognizer.state == .ended{
+        /*if gestureRecognizer.state == .ended{
             self.mapView.addAnnotation(annotations as! MKAnnotation)
-        }
+        }*/
         
     }
     
@@ -127,6 +114,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
 
     }
 
+//Fetching Pins
+//Tutorial assistance from: https://medium.com/@maddy.lucky4u/swift-4-core-data-part-3-creating-a-singleton-core-data-refactoring-insert-update-delete-9811af2fcf75
 
 func fetchAllPins() -> [Pin] {
     
@@ -166,14 +155,17 @@ func fetchAllPins() -> [Pin] {
     
     
     // MARK: NAVIGATION
-    
-func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "photoAlbum" {
-            let photoAlbumViewController = segue.destination as! PhotoAlbumViewController
-            
-        }
-    }
+    //Method implemented to respond to map pin being tapped
 
+    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.destination is PhotoAlbumViewController {
+        guard let pin = sender as? Pin else {
+            return
+        }
+        let controller = segue.destination as! PhotoAlbumViewController
+        controller.pin = pin
+    }
+}
     
     
     
@@ -209,5 +201,3 @@ func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             }
         }
     }
-
-

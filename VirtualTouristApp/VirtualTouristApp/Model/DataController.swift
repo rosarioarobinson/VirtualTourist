@@ -13,9 +13,9 @@ private let SQLITE_FILE_NAME = "model.sqlite"
 
 class DataController {
     
-    //private init() {}
-    
-    //let context = persistentContainer.viewContext
+    //Information on how to implement CoreData Stack into project provided by:
+    //https://medium.com/@maddy.lucky4u/swift-4-core-data-part-2-creating-a-simple-app-c4eded1fa55f
+    //https://stackoverflow.com/questions/38948481/core-data-initialize-managedobjectcontext
     
     // MARK: Shared Instance
     class func sharedInstance() -> DataController {
@@ -65,7 +65,7 @@ class DataController {
     
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = Bundle.main.url(forResource: "Model", withExtension: "momd")!
+        let modelURL = Bundle.main.url(forResource: "VirtualTourist", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     

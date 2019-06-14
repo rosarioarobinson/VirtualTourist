@@ -29,7 +29,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var pin: Pin!
     
     var dataController: DataController!
-    //var coreDataStack: CoreDataStack!
+    var viewContext: DataController!
     
     var fetchedResultsController:NSFetchedResultsController<Pin>!
     
