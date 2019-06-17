@@ -81,12 +81,13 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     @IBAction func editPinsPressed(sender: UIBarButtonItem ) {
     
+        //edit functionality currently not working?
         if isEditing {
             isEditing = false
-            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: Selector(("pressedNavButtonRight:")))
+            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: Selector(("editPin:")))
         } else {
             isEditing = true
-            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("pressedNavButtonRight:")))
+            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("editPin:")))
         }
     
         self.setEditing(isEditing, animated: true)
@@ -110,62 +111,43 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
     }
     
+    //Fetching Pins
+    //Tutorial assistance from: https://medium.com/@maddy.lucky4u/swift-4-core-data-part-3-creating-a-singleton-core-data-refactoring-insert-update-delete-9811af2fcf75
     
-
+    func fetchAllPins() -> [Pin] {
+        
+        /*Before you can do anything with Core Data, you need a managed object context. */
+        let managedContext = DataController.sharedInstance()
+        
+        /*As the name suggests, NSFetchRequest is the class responsible for fetching from Core Data.
+         
+         Initializing a fetch request with init(entityName:), fetches all objects of a particular entity. This is what you do here to fetch all Person entities.
+         */
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Pin")
+        
+        /*You hand the fetch request over to the managed object context to do the heavy lifting. fetch(_:) returns an array of managed objects meeting the criteria specified by the fetch request.*/
+        do {
+            let pin = try managedContext.managedObjectContext.fetch(fetchRequest)
+            return (pin as? [Pin])!
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return [Pin]()
+        }
     }
-
-//Fetching Pins
-//Tutorial assistance from: https://medium.com/@maddy.lucky4u/swift-4-core-data-part-3-creating-a-singleton-core-data-refactoring-insert-update-delete-9811af2fcf75
-
-func fetchAllPins() -> [Pin] {
     
-    /*Before you can do anything with Core Data, you need a managed object context. */
-    let managedContext = DataController.sharedInstance()
     
-    /*As the name suggests, NSFetchRequest is the class responsible for fetching from Core Data.
-     
-     Initializing a fetch request with init(entityName:), fetches all objects of a particular entity. This is what you do here to fetch all Person entities.
-     */
-    let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Pin")
     
-    /*You hand the fetch request over to the managed object context to do the heavy lifting. fetch(_:) returns an array of managed objects meeting the criteria specified by the fetch request.*/
-    do {
-        let pin = try managedContext.managedObjectContext.fetch(fetchRequest)
-        return (pin as? [Pin])!
-    } catch let error as NSError {
-        print("Could not fetch. \(error), \(error.userInfo)")
-        return [Pin]()
-    }
-}
-
-
-
     
     //Saving Pins
     func addSavedPins() {
-         //Pin = fetchAllPins()
+        //Pin = fetchAllPins()
         
         /*for pin in fetchAllPins() {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-            self.mapView.addAnnotation(annotation as! MKAnnotation)
-        }*/
+         let annotation = MKPointAnnotation()
+         annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+         self.mapView.addAnnotation(annotation as! MKAnnotation)
+         }*/
     }
-    
-    
-    
-    // MARK: NAVIGATION
-    //Method implemented to respond to map pin being tapped
-
-    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.destination is PhotoAlbumViewController {
-        guard let pin = sender as? Pin else {
-            return
-        }
-        let controller = segue.destination as! PhotoAlbumViewController
-        controller.pin = pin
-    }
-}
     
     
     
@@ -191,13 +173,26 @@ func fetchAllPins() -> [Pin] {
     }
     
     //Method implemented to respond to taps
-/*    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView) {
-        mapView.deselectAnnotation(view.annotation, animated: true)
-        
-        do {
-            let app = UIApplication.shared
-            if let toOpen = view.annotation?.subtitle! {
-                app.openURL(URL(string: toOpen)!)
-            }
-        }
-    }*/
+    /*    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView) {
+     mapView.deselectAnnotation(view.annotation, animated: true)
+     
+     do {
+     let app = UIApplication.shared
+     if let toOpen = view.annotation?.subtitle! {
+     app.openURL(URL(string: toOpen)!)
+     }
+     }
+     print("selected")
+     let controller = storyboard?.instantiateViewController(withIdentifier: "photoviewcontroller") as! PhotoAlbumViewController
+     //controller.pin = annotations.
+     self.navigationController?.pushViewController(controller, animated: true)
+     }*/
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("selected")
+        let controller = self.storyboard!.instantiateViewController(withIdentifier: "photoviewcontroller") as! PhotoAlbumViewController
+        self.present(controller, animated: true, completion: nil)
+    }
+
+
+    } //end of TravelLocationsViewController

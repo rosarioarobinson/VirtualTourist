@@ -10,7 +10,8 @@ import Foundation
 import CoreData
 import UIKit
 
-private let SQLITE_FILE_NAME = "model.sqlite"
+//DEPRECATED DUE TO REPEATED CODE IN DATACONTROLLER.SWIFT
+//private let SQLITE_FILE_NAME = "model.sqlite"
 
 /*class CoreDataStack {
     

@@ -26,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="Virtual Tourist" id="tgB-r3-NH3">
-                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="azX-Fu-Aq7">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="azX-Fu-Aq7">
                                             <connections>
                                                 <action selector="editPinsPressedWithSender:" destination="BYZ-38-t0r" id="izz-GY-Tps"/>
                                             </connections>
@@ -62,7 +62,7 @@
         <scene sceneID="oiy-fT-uJA">
             <objects>
                 <viewController storyboardIdentifier="photoviewcontroller" title="Photo Album View Controller" id="SxS-qe-sNH" customClass="PhotoAlbumViewController" customModule="VirtualTouristApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="g6z-mg-3dp">
+                    <view key="view" contentMode="scaleToFill" id="g6z-mg-3dp" customClass="PhotoAlbumCollectionViewCell" customModule="VirtualTouristApp" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

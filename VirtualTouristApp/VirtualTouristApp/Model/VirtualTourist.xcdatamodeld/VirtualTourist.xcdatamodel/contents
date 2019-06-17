@@ -13,7 +13,7 @@
         <relationship name="flickrPhotos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FlickrPhoto" inverseName="pins" inverseEntity="FlickrPhoto" storedInTruthFile="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FlickrPhoto" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="FlickrPhoto" positionX="-54" positionY="-9" width="128" height="103"/>
         <element name="Pin" positionX="-234" positionY="-9" width="128" height="105"/>
     </elements>
 </model>

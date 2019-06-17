@@ -20,7 +20,7 @@ class FlickrClient {
     var SessionID: String? = nil
     
     //GETting Photo Data
-    func taskForGetMethod(_ method: String, url: URL, completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
+    func taskForGetMethod(url: URL, completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
         //Parameters
         let url = URL(string: FlickrConstants.Constants.BaseURL)
@@ -60,7 +60,7 @@ class FlickrClient {
     }
     
     //MARK: Getting Photos for Pinned locations
-    func taskForGetPhotosForPin (_ method: String, latitude: Double, longitude: Double, completionHandlerForGetPhotosForPin: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
+    func taskForGetPhotosForPin (latitude: Double, longitude: Double, completionHandlerForGetPhotosForPin: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
         //Parameters
         let parameters = [
