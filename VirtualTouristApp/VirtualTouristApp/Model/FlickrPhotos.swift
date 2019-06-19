@@ -7,7 +7,26 @@
 //
 
 import Foundation
-import CoreData
-import UIKit
 
-//code for downloaded images from Flickr goes here??
+//Code to Parse data from Flickr
+
+struct PhotosParser: Codable {
+    let photos: Photos
+}
+
+struct Photos: Codable {
+    let pages: Int
+    let photo: [PhotoParser]
+}
+
+struct PhotoParser: Codable {
+    
+    let url: String?
+    let title: String
+    
+    enum CodingKeys: String, CodingKey {
+        case url = "url_n"
+        case title
+    }
+}
+

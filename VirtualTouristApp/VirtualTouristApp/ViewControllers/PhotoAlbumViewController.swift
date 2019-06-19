@@ -38,7 +38,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var fetchedResultsController:NSFetchedResultsController<FlickrPhoto>!
     
     //Fetched Results View Controller
-    func setupFetchedResultsController() {
+    /*func setupFetchedResultsController() {
         let fetchRequest:NSFetchRequest<FlickrPhoto> = FlickrPhoto.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -55,7 +55,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
-    }
+    }*/
     
     //LIFECYCLES
     override func viewDidLoad() {
@@ -63,27 +63,27 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         
         navigationItem.rightBarButtonItem = editButtonItem
         collectionView.allowsMultipleSelection = true
-        
-        setupFetchedResultsController()
+        //dataController = appDelegate.dataController
+        //setupFetchedResultsController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupFetchedResultsController()
+        //setupFetchedResultsController()
         
     }
     
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        fetchedResultsController = nil
+        //fetchedResultsController = nil
     }
 
     
     //MARK: ACTIONS
     @IBAction func newCollectionPressed(_ sender: Any) {
         
-        setupFetchedResultsController()
+        //setupFetchedResultsController()
         
     }
     
@@ -98,7 +98,30 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         
         //error: Cannot convert value of type '((AnyObject?, NSError?) -> Void).Type' to expected argument type '(AnyObject?, NSError?) -> Void'
         //FlickrClient.sharedInstance().taskForGetPhotosForPin(latitude: latitude, longitude: longitude, completionHandlerForGetPhotosForPin: (AnyObject?, NSError?) -> Void)
+        /*ParseClient.shared.doSearchPhotos(latitude: latitude, longitude: longitude, currentPage: currentPage, completion: { (data, error) in
+         
+         if error != nil {
+         //show an error message
+         
+         }else {
+         // process the data on UI
+         }
+         }
+         
+         })
+         
+         
+         }*/
     }
+    
+    //Not sure how to implement this code for pages
+    /*var page: Int {
+     if let totalPages = totalPages {
+     let page = min(totalPages, 4000/FlickrParameterValues.PhotosPerPage)
+     return Int(arc4random_uniform(UInt32(page)) + 1)
+     }
+     return 1
+     }*/
     
     
     //mapview for pin

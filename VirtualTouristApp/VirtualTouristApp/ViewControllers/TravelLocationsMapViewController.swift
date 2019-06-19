@@ -96,7 +96,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     @objc func annotationPins(gestureRecognizer: UILongPressGestureRecognizer) {
         
-        if gestureRecognizer.state == .began {return}
+        if gestureRecognizer.state != .began {return}
         
         let pressPoint = gestureRecognizer.location(in: mapView)
         let coordinates = mapView.convert(pressPoint, toCoordinateFrom: mapView)
@@ -104,10 +104,13 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         annotation.coordinate = coordinates
         mapView.addAnnotation(annotation)
         
+        //causing the app to crash!! 
+        /*let pin: Pin = Pin(context: DataController.sharedInstance().viewContext)
+        pin.latitude = annotation.coordinate.latitude
+        pin.longitude = annotation.coordinate.longitude
         
-        /*if gestureRecognizer.state == .ended{
-            self.mapView.addAnnotation(annotations as! MKAnnotation)
-        }*/
+        DataController.sharedInstance().saveContext()*/
+
         
     }
     

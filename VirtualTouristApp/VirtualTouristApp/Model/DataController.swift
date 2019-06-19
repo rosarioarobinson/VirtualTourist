@@ -107,22 +107,52 @@ class DataController {
 // MARK: - Autosaving
 
 extension DataController {
-    func autoSaveViewContext(interval:TimeInterval = 30) {
-        print("autosaving")
-        
-        guard interval > 0 else {
-            print("cannot set negative autosave interval")
-            return
-        }
-        
-        if viewContext.hasChanges {
-            try? viewContext.save()
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
-            self.autoSaveViewContext(interval: interval)
+    
+    func saveContext() {
+        if self.viewContext.hasChanges {
+            do {
+                try self.viewContext.save()
+            } catch {
+                print("Error occured while saving persistent store: \(error), \(error._userInfo)")
+                
+            }
         }
     }
     
+}
+
+//added extension as per project reviewer
+extension DataController {
+    func fetchPin(_ predicate: NSPredicate, sorting: NSSortDescriptor? = nil) throws -> Pin? {
+        let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        fr.predicate = predicate
+        if let sorting = sorting {
+            fr.sortDescriptors = [sorting]
+        }
+        guard let pin = (try viewContext.fetch(fr) as! [Pin]).first else {
+            return nil
+        }
+        return pin
+    }
     
+    func fetchAllPins() throws -> [Pin]? {
+        let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        
+        guard let pin = try viewContext.fetch(fr) as? [Pin] else {
+            return nil
+        }
+        return pin
+    }
+    
+    func fetchPhotos(_ predicate: NSPredicate? = nil, sorting: NSSortDescriptor? = nil) throws -> [FlickrPhoto]? {
+        let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "FlickrPhoto")
+        fr.predicate = predicate
+        if let sorting = sorting {
+            fr.sortDescriptors = [sorting]
+        }
+        guard let photos = try viewContext.fetch(fr) as? [FlickrPhoto] else {
+            return nil
+        }
+        return photos
+    }
 }
