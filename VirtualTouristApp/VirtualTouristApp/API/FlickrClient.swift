@@ -19,118 +19,18 @@ class FlickrClient {
     // To authenticate
     var SessionID: String? = nil
     
-    //added as told by project reviewer to make request to Flickr
-    func makeRequest<ResponseType: Decodable>(url: URL, type: ResponseType.Type, completion: @escaping (_ data: ResponseType?, _ error : String?) -> Void) -> URLSessionDataTask?{
-        //guard let urlRequest = request.urlRequest else { return nil}
-        //print(urlRequest)
-        var request = URLRequest(url: url)
-        let task = session.dataTask(with: request) { data, response, error in
-            
-            func sendError(_ error: String) {
-                print(error)
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
-                
-            }
-            
-            /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                sendError(error!.localizedDescription)
-                return
-            }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                sendError("Request did not return a valid response.")
-                return
-            }
-            
-            switch (statusCode) {
-            case 403:
-                sendError("Please check your credentials and try again.")
-                return
-            case 200 ..< 299:
-                break
-            default:
-                sendError("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard let data = data else {
-                sendError("No data was returned by the request!")
-                return
-            }
-            
-            let newData = data
-            do {
-                let photoObject = try JSONDecoder().decode(type, from: newData)
-                DispatchQueue.main.async {
-                    completion(photoObject, nil)
-                }
-                print(String(data: newData, encoding: .utf8)!)
-            } catch {
-                
-                completion(nil, error.localizedDescription)
-            }
-            
-            
-        }
-        task.resume()
-        return task
-    }
-    
-    //GETting Photo Data
-    //Should this be deleted??
-    func taskForGetMethod(url: URL, completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
-        
-        //Parameters
-        let url = URL(string: FlickrConstants.Constants.BaseURL)
-        
-        //Request
-        var request = URLRequest(url: url!)
-        request.httpMethod = "GET"
-        
-        //create task
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            func sendError(_ error: String) {
-                print(error)
-                let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForGET(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
-            }
-            
-            /* GUARD: Was there an error? */
-            guard (error == nil) else {
-                sendError("There was an error with your request: \(error!)")
-                return
-            }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                sendError("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard data != nil else {
-                sendError("No data was returned by the request!")
-                return
-            }
-            
-        }
-        task.resume()
-    }
-    
-    //added as per project reviewer
-    func doSearchPhotos(latitude: Double, longitude: Double, currentPage: Int, completion: @escaping (_ data: PhotosParser?, _ error : String?) -> Void) {
-        //ERROR: Argument labels '(latitude:, longitude:, page:)' do not match any available overloads
-        //makeRequest(url: URL(latitude: latitude, longitude: longitude,page:currentPage), type: PhotosParser.self, completion: completion)
-    }
-    
     
     //MARK: Getting Photos for Pinned locations
-    func taskForGetPhotosForPin (latitude: Double, longitude: Double, completionHandlerForGetPhotosForPin: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
+    func taskForGetPhotosForPin (latitude: Double, longitude: Double, totalPages: Int?, completionHandlerForGetPhotosForPin: @escaping (_ result: PhotosParser?, _ error: NSError?) -> Void) {
+        
+        //this chooses a random page
+        var page: Int {
+            if let totalPages = totalPages {
+                let page = min(totalPages, 4000)
+                return Int(arc4random_uniform(UInt32(page)) + 1)
+            }
+            return 1
+        }
         
         //Parameters
         let parameters = [
@@ -144,7 +44,7 @@ class FlickrClient {
             
             FlickrConstants.FlickrParameterKeys.Extras :FlickrConstants.FlickrParameterValues.MediumURL,
             
-            
+            FlickrConstants.FlickrParameterKeys.PhotosPerPage :FlickrConstants.FlickrParameterValues.PhotosPerPage
             
             ] as [String : AnyObject]
         
@@ -154,54 +54,65 @@ class FlickrClient {
         request.httpMethod = "GET"
         
         //create task
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            func sendError(_ error: String) {
+        let task = session.dataTask(with: request) { data, response, error in
+            
+            func displayError(_ error: String) {
                 print(error)
-                let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForGetPhotosForPin(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
             }
             
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                sendError("There was an error with your request: \(error!)")
+                displayError("There was an error with your request: \(error!)")
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                sendError("Your request returned a status code other than 2xx!")
+                displayError("Your request returned a status code other than 2xx!")
                 return
             }
             
             /* GUARD: Was there any data returned? */
-            guard data != nil else {
-                sendError("No data was returned by the request!")
+            guard let data = data else {
+                displayError("No data was returned by the request!")
                 return
             }
             
-            //calling completion handler
-            
+            // parse the data
             let parsedResult: [String:AnyObject]!
             do {
-                parsedResult = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String:AnyObject]
+                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
             } catch {
+                displayError("Could not parse the data as JSON: '\(data)'")
                 return
             }
-            if let result = parsedResult["results"] as? [[String:AnyObject]]{
-                completionHandlerForGetPhotosForPin(result as AnyObject,nil)
+            
+            /* GUARD: Are the "photos" and "photo" keys in our result? */
+            guard let photosDictionary = parsedResult[FlickrConstants.FlickrResponseKeys.Photos] as? [String:AnyObject], let photoArray = photosDictionary[FlickrConstants.FlickrResponseKeys.Photo] as? [[String:AnyObject]] else {
+                displayError("Cannot find keys '\(FlickrConstants.FlickrResponseKeys.Photos)' and '\(FlickrConstants.FlickrResponseKeys.Photo)' in \(parsedResult)")
+                return
             }
-            print(String(data: data!, encoding: .utf8)!)
+            
+            // select a random photo
+            let randomPhotoIndex = Int(arc4random_uniform(UInt32(photoArray.count)))
+            let photoDictionary = photoArray[randomPhotoIndex] as [String:AnyObject]
+            
+            /* GUARD: Does our photo have a key for 'url_m'? */
+            guard (photoDictionary[FlickrConstants.FlickrResponseKeys.MediumURL] as? String) != nil else {
+                displayError("Cannot find key '\(FlickrConstants.FlickrResponseKeys.MediumURL)' in \(photoDictionary)")
+                return
+            }
             
         }
         
         task.resume()
     }
     
-    
+     }
     
     // MARK: Shared Instance
-    class func sharedInstance() -> FlickrClient {
+    func sharedInstance() -> FlickrClient {
         struct Singleton {
             static var sharedInstance = FlickrClient()
         }
@@ -210,4 +121,4 @@ class FlickrClient {
     }
     
     
-}
+

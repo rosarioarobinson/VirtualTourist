@@ -10,7 +10,6 @@
 		D53443FD22A86049000273CC /* PhotoAlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53443FC22A86049000273CC /* PhotoAlbumCollectionViewCell.swift */; };
 		D53443FF22AB55B5000273CC /* FlickrConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53443FE22AB55B5000273CC /* FlickrConstants.swift */; };
 		D534440122B06183000273CC /* FlickrPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = D534440022B06183000273CC /* FlickrPhotos.swift */; };
-		D534440822B2D1A8000273CC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D534440722B2D1A8000273CC /* CoreDataStack.swift */; };
 		D534440D22B2D3EF000273CC /* FlickrPhoto+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D534440922B2D3EF000273CC /* FlickrPhoto+CoreDataClass.swift */; };
 		D534440E22B2D3EF000273CC /* FlickrPhoto+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D534440A22B2D3EF000273CC /* FlickrPhoto+CoreDataProperties.swift */; };
 		D534440F22B2D3EF000273CC /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D534440B22B2D3EF000273CC /* Pin+CoreDataClass.swift */; };
@@ -41,11 +40,11 @@
 		D53443FC22A86049000273CC /* PhotoAlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		D53443FE22AB55B5000273CC /* FlickrConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrConstants.swift; sourceTree = "<group>"; };
 		D534440022B06183000273CC /* FlickrPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrPhotos.swift; sourceTree = "<group>"; };
-		D534440722B2D1A8000273CC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		D534440922B2D3EF000273CC /* FlickrPhoto+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FlickrPhoto+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D534440A22B2D3EF000273CC /* FlickrPhoto+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FlickrPhoto+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D534440B22B2D3EF000273CC /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D534440C22B2D3EF000273CC /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D534441722BACD80000273CC /* VirtualTourist-06-19-19-updatedattributes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "VirtualTourist-06-19-19-updatedattributes.xcdatamodel"; sourceTree = "<group>"; };
 		D547533D22A71F240025E2EE /* VirtualTouristApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTouristApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D547534022A71F240025E2EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D547534522A71F240025E2EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -167,7 +166,6 @@
 				D5D40C7222A74851006D6CCA /* VirtualTourist.xcdatamodeld */,
 				D5D40C7522A7607C006D6CCA /* DataController.swift */,
 				D534440022B06183000273CC /* FlickrPhotos.swift */,
-				D534440722B2D1A8000273CC /* CoreDataStack.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -279,7 +277,6 @@
 				D53443FF22AB55B5000273CC /* FlickrConstants.swift in Sources */,
 				D547536222A721330025E2EE /* TravelLocationsMapViewController.swift in Sources */,
 				D534440E22B2D3EF000273CC /* FlickrPhoto+CoreDataProperties.swift in Sources */,
-				D534440822B2D1A8000273CC /* CoreDataStack.swift in Sources */,
 				D534440F22B2D3EF000273CC /* Pin+CoreDataClass.swift in Sources */,
 				D5D40C7622A7607C006D6CCA /* DataController.swift in Sources */,
 				D5D40C7422A74851006D6CCA /* VirtualTourist.xcdatamodeld in Sources */,
@@ -533,9 +530,10 @@
 		D5D40C7222A74851006D6CCA /* VirtualTourist.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D534441722BACD80000273CC /* VirtualTourist-06-19-19-updatedattributes.xcdatamodel */,
 				D5D40C7322A74851006D6CCA /* VirtualTourist.xcdatamodel */,
 			);
-			currentVersion = D5D40C7322A74851006D6CCA /* VirtualTourist.xcdatamodel */;
+			currentVersion = D534441722BACD80000273CC /* VirtualTourist-06-19-19-updatedattributes.xcdatamodel */;
 			path = VirtualTourist.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -38,6 +38,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var fetchedResultsController:NSFetchedResultsController<FlickrPhoto>!
     
     //Fetched Results View Controller
+    //commented out due to crash at launch from line(s) 47-53
     /*func setupFetchedResultsController() {
         let fetchRequest:NSFetchRequest<FlickrPhoto> = FlickrPhoto.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
@@ -113,15 +114,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
          
          }*/
     }
-    
-    //Not sure how to implement this code for pages
-    /*var page: Int {
-     if let totalPages = totalPages {
-     let page = min(totalPages, 4000/FlickrParameterValues.PhotosPerPage)
-     return Int(arc4random_uniform(UInt32(page)) + 1)
-     }
-     return 1
-     }*/
+
     
     
     //mapview for pin

@@ -121,7 +121,7 @@ extension DataController {
     
 }
 
-//added extension as per project reviewer
+//added extension as per project reviewer's suggestion
 extension DataController {
     func fetchPin(_ predicate: NSPredicate, sorting: NSSortDescriptor? = nil) throws -> Pin? {
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")

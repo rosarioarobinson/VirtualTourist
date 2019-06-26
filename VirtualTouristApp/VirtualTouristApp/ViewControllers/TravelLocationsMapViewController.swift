@@ -105,11 +105,11 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         mapView.addAnnotation(annotation)
         
         //causing the app to crash!! 
-        /*let pin: Pin = Pin(context: DataController.sharedInstance().viewContext)
+        let pin: Pin = Pin(context: DataController.sharedInstance().viewContext)
         pin.latitude = annotation.coordinate.latitude
         pin.longitude = annotation.coordinate.longitude
         
-        DataController.sharedInstance().saveContext()*/
+        DataController.sharedInstance().saveContext()
 
         
     }
@@ -150,6 +150,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
          annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
          self.mapView.addAnnotation(annotation as! MKAnnotation)
          }*/
+        
+        
     }
     
     

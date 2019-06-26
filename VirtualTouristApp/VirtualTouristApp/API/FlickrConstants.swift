@@ -36,7 +36,7 @@ class FlickrConstants {
         static let Longitude: String = "lon"
         static let Gallery: String = "in_gallery"
         static let Extras: String = "extras"
-        static let PerPage: String = "per_page"
+        static let PhotosPerPage: String = "per_page"
         static let SafeSearch = "safe_search"
         static let ResponseFormat = "format"
         static let DisableJSONCallback = "nojsoncallback"
@@ -49,10 +49,18 @@ class FlickrConstants {
         static let APIKEY = "03f47bd6c1bce21fa416d9cd84183743"
         static let ResponseFormat = "json"
         static let DisableJSONCallback = "1"
-        static let MediumURL = "url_m"
+        static let MediumURL = "url_n"
         static let SafeSearch = "1"
+        static let PhotosPerPage = "21"
     }
     
-    
+    // MARK: Flickr Response Keys
+    struct FlickrResponseKeys {
+        static let Status = "stat"
+        static let Photos = "photos"
+        static let Photo = "photo"
+        static let Title = "title"
+        static let MediumURL = "url_m"
+    }
     
 }
