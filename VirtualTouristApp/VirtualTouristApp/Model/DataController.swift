@@ -18,12 +18,11 @@ class DataController {
     //https://stackoverflow.com/questions/38948481/core-data-initialize-managedobjectcontext
     
     // MARK: Shared Instance
-    class func sharedInstance() -> DataController {
-        struct Singleton {
-            static var sharedInstance = DataController(modelName: "VirtualTourist")
-        }
-        
-        return Singleton.sharedInstance
+    static var sharedInstance = DataController()
+    
+    private init() {
+        persistentContainer = NSPersistentContainer(name: "VirtualTourist")    
+        backgroundContext = persistentContainer.newBackgroundContext() 
     }
     
     let persistentContainer:NSPersistentContainer
@@ -34,11 +33,11 @@ class DataController {
     
     let backgroundContext:NSManagedObjectContext!
     
-    init(modelName:String) {
+    /*init(modelName:String) {
         persistentContainer = NSPersistentContainer(name: modelName)
         
         backgroundContext = persistentContainer.newBackgroundContext()
-    }
+    }*/
     
     func load(completion: (() -> Void)? = nil) {
         persistentContainer.loadPersistentStores { storeDescription, error in

@@ -48,8 +48,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        dataController = appDelegate.dataController
+        /*let appDelegate = UIApplication.shared.delegate as! AppDelegate
+         dataController = appDelegate.dataController*/
         
         editPin.isEnabled = true
         //edit button
@@ -105,11 +105,11 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         mapView.addAnnotation(annotation)
         
         //causing the app to crash!! 
-        let pin: Pin = Pin(context: DataController.sharedInstance().viewContext)
+        let pin: Pin = Pin(context: DataController.sharedInstance.viewContext)
         pin.latitude = annotation.coordinate.latitude
         pin.longitude = annotation.coordinate.longitude
         
-        DataController.sharedInstance().saveContext()
+        DataController.sharedInstance.saveContext()
 
         
     }
@@ -120,7 +120,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     func fetchAllPins() -> [Pin] {
         
         /*Before you can do anything with Core Data, you need a managed object context. */
-        let managedContext = DataController.sharedInstance()
+        let managedContext = DataController.sharedInstance
         
         /*As the name suggests, NSFetchRequest is the class responsible for fetching from Core Data.
          
