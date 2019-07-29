@@ -50,10 +50,13 @@ class FlickrClient {
         
         
         //URL Request
-        var request = URLRequest(url: URL(string: "https://www.flickr.com/services/rest/")!)
-        request.httpMethod = "GET"
+        //var request = URLRequest(url: URL(string: "https://www.flickr.com/services/rest/")!)
+        let session = URLSession.shared
+        let urlString = FlickrConstants.Constants.BaseURL
+        let url = URL(string: urlString)!
+        let request = URLRequest(url: url)
         
-        //create task
+        //Create network request
         let task = session.dataTask(with: request) { data, response, error in
             
             func displayError(_ error: String) {

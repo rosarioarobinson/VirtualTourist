@@ -19,7 +19,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     @IBOutlet weak var editPin: UIBarButtonItem!
     
    
-    var dataController: DataController!
+    var dataController = DataController.sharedInstance
     var viewContext: DataController!
     var appDelegate: AppDelegate!
     var fetchedResultsController:NSFetchedResultsController<Pin>!

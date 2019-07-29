@@ -28,7 +28,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var pin: Pin!
     var photo: FlickrPhoto!
     
-    var dataController: DataController!
+    var dataController = DataController.sharedInstance
     var viewContext: DataController!
     var appDelegate: AppDelegate!
     
