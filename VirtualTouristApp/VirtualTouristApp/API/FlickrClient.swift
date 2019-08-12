@@ -52,7 +52,7 @@ class FlickrClient {
         //URL Request
         //var request = URLRequest(url: URL(string: "https://www.flickr.com/services/rest/")!)
         let session = URLSession.shared
-        let urlString = FlickrConstants.Constants.BaseURL
+        let urlString = FlickrConstants.Constants.BaseURL + escapedParameters(parameters as [String:AnyObject])
         let url = URL(string: urlString)!
         let request = URLRequest(url: url)
         
@@ -113,7 +113,33 @@ class FlickrClient {
     }
     
      }
+
+// MARK: Helper for Escaping Parameters in URL
+
+private func escapedParameters(_ parameters: [String:AnyObject]) -> String {
     
+    if parameters.isEmpty {
+        return ""
+    } else {
+        var keyValuePairs = [String]()
+        
+        for (key, value) in parameters {
+            
+            // make sure that it is a string value
+            let stringValue = "\(value)"
+            
+            // escape it
+            let escapedValue = stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            
+            // append it
+            keyValuePairs.append(key + "=" + "\(escapedValue!)")
+            
+        }
+        
+        return "?\(keyValuePairs.joined(separator: "&"))"
+    }
+}
+
     // MARK: Shared Instance
     func sharedInstance() -> FlickrClient {
         struct Singleton {
