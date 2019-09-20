@@ -119,22 +119,21 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     func fetchAllPins() -> [Pin] {
         
-        /*Before you can do anything with Core Data, you need a managed object context. */
-        let managedContext = DataController.sharedInstance
-        
-        /*As the name suggests, NSFetchRequest is the class responsible for fetching from Core Data.
-         
-         Initializing a fetch request with init(entityName:), fetches all objects of a particular entity. This is what you do here to fetch all Person entities.
-         */
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Pin")
-        
-        /*You hand the fetch request over to the managed object context to do the heavy lifting. fetch(_:) returns an array of managed objects meeting the criteria specified by the fetch request.*/
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         do {
-            let pin = try managedContext.managedObjectContext.fetch(fetchRequest)
-            return (pin as? [Pin])!
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-            return [Pin]()
+            if let results = try managedObjectContext.fetch(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    if let lat = result.value(forKey: "latitude") as? Double, let lon = result.value(forKey: "longitude") as? Double {
+                        print("Got \(lat) and \(lon)")
+                    }
+                    else {
+                        print("No latitude/longitude found while getting pins")
+                    }
+                }
+            }
+        }
+        catch {
+            print("Error while getting pin \(error)")
         }
     }
     
@@ -142,16 +141,21 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     
     //Saving Pins
-    func addSavedPins() {
-        //Pin = fetchAllPins()
+    func savePin(latitude: Double, longitude: Double) {
         
-        /*for pin in fetchAllPins() {
-         let annotation = MKPointAnnotation()
-         annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-         self.mapView.addAnnotation(annotation as! MKAnnotation)
-         }*/
-        
-        
+        if let entityDescription = self.managedObjectModel.entitiesByName["Pin"] {
+            let managedObject = NSManagedObject.init(entity: entityDescription, insertInto: self.managedObjectContext)
+            managedObject.setValue(latitude, forKey: "latitude")
+            managedObject.setValue(longitude, forKey: "longitude")
+            if (self.managedObjectContext.hasChanges) {
+                do {
+                    try self.managedObjectContext.save()
+                } catch {
+                    print("Error while saving pin: \(error)")
+                }
+            }
+        }
+    }
     }
     
     
@@ -200,4 +204,4 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     }
 
 
-    } //end of TravelLocationsViewController
+//end of TravelLocationsViewController
