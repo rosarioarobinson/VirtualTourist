@@ -7,17 +7,145 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A0B8F48C-20A2-4144-B898-5DE8FDA7B604"
+            uuid = "8B695A03-BFF1-4273-A225-B9834393C630"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VirtualTouristApp/ViewControllers/TravelLocationsMapViewController.swift"
+            filePath = "VirtualTouristApp/ViewControllers/PhotoAlbumViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
-            landmarkName = "mapView(_:didSelect:)"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "grabFlickrPhotos()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8B695A03-BFF1-4273-A225-B9834393C630 - 57803509f662b3ea"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VirtualTouristApp.PhotoAlbumViewController.grabFlickrPhotos() -&gt; ()"
+                  moduleName = "VirtualTouristApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rosarioarobinson/Documents/Documents/VirtualTourist/VirtualTouristApp/VirtualTouristApp/ViewControllers/PhotoAlbumViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "26">
+               </Location>
+               <Location
+                  uuid = "8B695A03-BFF1-4273-A225-B9834393C630 - b7549226cff41ba8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;VirtualTouristApp.PhotosParser&gt;, Swift.Optional&lt;__C.NSError&gt;) -&gt; () in VirtualTouristApp.PhotoAlbumViewController.grabFlickrPhotos() -&gt; ()"
+                  moduleName = "VirtualTouristApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rosarioarobinson/Documents/Documents/VirtualTourist/VirtualTouristApp/VirtualTouristApp/ViewControllers/PhotoAlbumViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "117">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6F05EC76-1DEF-43E0-89C1-3006E2641AD5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualTouristApp/ViewControllers/PhotoAlbumViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "grabFlickrPhotos()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A7D5B0F-9C7C-4FA7-AF88-8FEA9C3E8430"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualTouristApp/ViewControllers/PhotoAlbumViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "grabFlickrPhotos()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4CEF1D8E-45C1-4076-84DA-91322E055324"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualTouristApp/API/FlickrClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "taskForGetPhotosForPin(latitude:longitude:totalPages:completionHandlerForGetPhotosForPin:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4CEF1D8E-45C1-4076-84DA-91322E055324 - f1b857f88db0085a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VirtualTouristApp.FlickrClient.taskForGetPhotosForPin(latitude: Swift.Double, longitude: Swift.Double, totalPages: Swift.Optional&lt;Swift.Int&gt;, completionHandlerForGetPhotosForPin: (Swift.Optional&lt;VirtualTouristApp.PhotosParser&gt;, Swift.Optional&lt;__C.NSError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "VirtualTouristApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rosarioarobinson/Documents/Documents/VirtualTourist/VirtualTouristApp/VirtualTouristApp/API/FlickrClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "2150">
+               </Location>
+               <Location
+                  uuid = "4CEF1D8E-45C1-4076-84DA-91322E055324 - a2df577a373568fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in VirtualTouristApp.FlickrClient.taskForGetPhotosForPin(latitude: Swift.Double, longitude: Swift.Double, totalPages: Swift.Optional&lt;Swift.Int&gt;, completionHandlerForGetPhotosForPin: (Swift.Optional&lt;VirtualTouristApp.PhotosParser&gt;, Swift.Optional&lt;__C.NSError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "VirtualTouristApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rosarioarobinson/Documents/Documents/VirtualTourist/VirtualTouristApp/VirtualTouristApp/API/FlickrClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "698">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7D46D027-D1A0-4BC7-AE92-36281EB3D300"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualTouristApp/API/FlickrClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "displayError(_:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

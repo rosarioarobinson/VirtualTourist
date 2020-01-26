@@ -102,10 +102,24 @@ class FlickrClient {
             let photoDictionary = photoArray[randomPhotoIndex] as [String:AnyObject]
             
             /* GUARD: Does our photo have a key for 'url_m'? */
-            guard (photoDictionary[FlickrConstants.FlickrResponseKeys.MediumURL] as? String) != nil else {
+            /*guard (photoDictionary[FlickrConstants.FlickrResponseKeys.MediumURL] as? String) != nil else {
+                displayError("Cannot find key '\(FlickrConstants.FlickrResponseKeys.MediumURL)' in \(photoDictionary)")
+                return
+            }*/
+            guard let photoParserUrl = (photoDictionary[FlickrConstants.FlickrResponseKeys.MediumURL] as? String) else {
                 displayError("Cannot find key '\(FlickrConstants.FlickrResponseKeys.MediumURL)' in \(photoDictionary)")
                 return
             }
+            
+            guard let photoParserTitle = photoDictionary[FlickrConstants.FlickrResponseKeys.Title] as? String else {
+                displayError("Cannot find key '\(FlickrConstants.FlickrResponseKeys.Title)' in \(photoDictionary)")
+                return
+            }
+            
+            let photoParser = PhotoParser(url: photoParserUrl, title: photoParserTitle)
+            let photos = Photos(pages: page, photo: [photoParser])
+            let photosParser = PhotosParser(photos: photos)
+            completionHandlerForGetPhotosForPin(photosParser, nil)
             
         }
         

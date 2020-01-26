@@ -49,7 +49,7 @@ class FlickrConstants {
         static let APIKEY = "03f47bd6c1bce21fa416d9cd84183743"
         static let ResponseFormat = "json"
         static let DisableJSONCallback = "1"
-        static let MediumURL = "url_n"
+        static let MediumURL = "url_m"
         static let SafeSearch = "1"
         static let PhotosPerPage = "21"
     }

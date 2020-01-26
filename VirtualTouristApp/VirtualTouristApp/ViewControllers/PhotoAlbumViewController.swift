@@ -64,6 +64,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         
         navigationItem.rightBarButtonItem = editButtonItem
         collectionView.allowsMultipleSelection = true
+        grabFlickrPhotos()
         //dataController = appDelegate.dataController
         setupFetchedResultsController()
     }
@@ -97,22 +98,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     //grab photos from Flickr API
     func grabFlickrPhotos(){
         
-        //error: Cannot convert value of type '((AnyObject?, NSError?) -> Void).Type' to expected argument type '(AnyObject?, NSError?) -> Void'
-        //FlickrClient.sharedInstance().taskForGetPhotosForPin(latitude: latitude, longitude: longitude, completionHandlerForGetPhotosForPin: (AnyObject?, NSError?) -> Void)
-        /*ParseClient.shared.doSearchPhotos(latitude: latitude, longitude: longitude, currentPage: currentPage, completion: { (data, error) in
-         
-         if error != nil {
-         //show an error message
-         
-         }else {
-         // process the data on UI
-         }
-         }
-         
-         })
-         
-         
-         }*/
+        FlickrClient.shared.taskForGetPhotosForPin(latitude: latitude, longitude: longitude, totalPages: 1) { (parser, error) in
+            guard let photos = parser?.photos else {
+                return
+            }
+            print(photos)
+        }
     }
 
     
