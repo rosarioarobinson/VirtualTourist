@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /*if let viewController = viewController {
          viewController.managedObjectContext = self.managedObjectContext
          }*/
-        let travelLocationsMapViewController = window?.rootViewController as! TravelLocationsMapViewController
+        /*let travelLocationsMapViewController = window?.rootViewController as! TravelLocationsMapViewController*/
         //travelLocationsMapViewController.dataController = dataController
         
         return true

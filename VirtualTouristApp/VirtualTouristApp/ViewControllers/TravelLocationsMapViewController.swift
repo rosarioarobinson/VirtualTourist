@@ -120,8 +120,9 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     func fetchAllPins() -> [Pin] {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        let pins = [Pin]()
         do {
-            if let results = try managedObjectContext.fetch(fetchRequest) as? [NSManagedObject] {
+            if let results = try dataController.managedObjectContext.fetch(fetchRequest) as? [NSManagedObject] {
                 for result in results {
                     if let lat = result.value(forKey: "latitude") as? Double, let lon = result.value(forKey: "longitude") as? Double {
                         print("Got \(lat) and \(lon)")
@@ -135,6 +136,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         catch {
             print("Error while getting pin \(error)")
         }
+        return pins
     }
     
     
@@ -143,20 +145,20 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     //Saving Pins
     func savePin(latitude: Double, longitude: Double) {
         
-        if let entityDescription = self.managedObjectModel.entitiesByName["Pin"] {
-            let managedObject = NSManagedObject.init(entity: entityDescription, insertInto: self.managedObjectContext)
+        if let entityDescription = dataController.managedObjectModel.entitiesByName["Pin"] {
+            let managedObject = NSManagedObject.init(entity: entityDescription, insertInto: dataController.managedObjectContext)
             managedObject.setValue(latitude, forKey: "latitude")
             managedObject.setValue(longitude, forKey: "longitude")
-            if (self.managedObjectContext.hasChanges) {
+            if (dataController.managedObjectContext.hasChanges) {
                 do {
-                    try self.managedObjectContext.save()
+                    try dataController.managedObjectContext.save()
                 } catch {
                     print("Error while saving pin: \(error)")
                 }
             }
         }
     }
-    }
+    
     
     
     
@@ -200,8 +202,9 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         print("selected")
         let controller = self.storyboard!.instantiateViewController(withIdentifier: "photoviewcontroller") as! PhotoAlbumViewController
-        self.present(controller, animated: true, completion: nil)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
 
 //end of TravelLocationsViewController
+}
