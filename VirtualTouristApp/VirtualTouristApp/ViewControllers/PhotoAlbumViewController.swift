@@ -39,7 +39,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     //Fetched Results View Controller
     //commented out due to crash at launch from line(s) 47-53
-    /*func setupFetchedResultsController() {
+    func setupFetchedResultsController() {
         let fetchRequest:NSFetchRequest<FlickrPhoto> = FlickrPhoto.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -56,7 +56,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
-    }*/
+    }
     
     //LIFECYCLES
     override func viewDidLoad() {
@@ -65,7 +65,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         navigationItem.rightBarButtonItem = editButtonItem
         collectionView.allowsMultipleSelection = true
         //dataController = appDelegate.dataController
-        //setupFetchedResultsController()
+        setupFetchedResultsController()
     }
     
     override func viewWillAppear(_ animated: Bool) {

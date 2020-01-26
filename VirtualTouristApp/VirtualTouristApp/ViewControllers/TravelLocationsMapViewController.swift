@@ -105,9 +105,10 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         mapView.addAnnotation(annotation)
         
         //causing the app to crash!! 
-        let pin: Pin = Pin(context: DataController.sharedInstance.viewContext)
+        /*let pin: Pin = Pin(context: DataController.sharedInstance.viewContext)
         pin.latitude = annotation.coordinate.latitude
-        pin.longitude = annotation.coordinate.longitude
+        pin.longitude = annotation.coordinate.longitude*/
+        savePin(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
         
         DataController.sharedInstance.saveContext()
 
@@ -201,7 +202,12 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         print("selected")
+        let selectedPin = view.annotation as? MKPointAnnotation
+        
         let controller = self.storyboard!.instantiateViewController(withIdentifier: "photoviewcontroller") as! PhotoAlbumViewController
+        
+        controller.latitude = selectedPin?.coordinate.latitude ?? 0
+        controller.longitude = selectedPin?.coordinate.longitude ?? 0
         navigationController?.pushViewController(controller, animated: true)
     }
 
